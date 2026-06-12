@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fresh View Property Services</title>
+  <style>
+    :root {
+      --blue: #0f8bd6;
+      --deep-blue: #075985;
+      --green: #32c48d;
+      --mint: #dffdf2;
+      --yellow: #ffd166;
+      --white: #ffffff;
+      --dark: #102033;
+      --muted: #5f6f7f;
+      --light: #f4fbff;
+      --card: rgba(255,255,255,0.92);
+      --shadow: 0 18px 45px rgba(8, 50, 82, 0.18);
+      --radius: 22px;
+    }
+
+    * {
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #e7f8ff 0%, #ffffff 45%, #effdf7 100%);
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(15, 139, 214, 0.12);
+    }
+
+    .nav {
+      max-width: 1150px;
+      margin: auto;
+      padding: 14px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .brand {
+      font-weight: 900;
+      font-size: 1.15rem;
+      color: var(--deep-blue);
+      letter-spacing: -0.5px;
+    }
+
+    .brand span {
+      color: var(--green);
+    }
+
+    .nav a {
+      color: var(--dark);
+      text-decoration: none;
+      margin-left: 16px;
+      font-weight: 700;
+      font-size: 0.92rem;
+    }
+
+    .nav .quote-link {
+      color: white;
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      padding: 10px 16px;
+      border-radius: 999px;
+      box-shadow: 0 8px 18px rgba(15, 139, 214, 0.25);
+    }
+
+    .hero {
+      max-width: 1150px;
+      margin: auto;
+      padding: 54px 22px 34px;
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 34px;
+      align-items: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--mint);
+      color: #087c55;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 0.9rem;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-size: clamp(2.35rem, 6vw, 5rem);
+      line-height: 0.95;
+      letter-spacing: -2.5px;
+      margin: 0 0 18px;
+      color: var(--dark);
+    }
+
+    h1 span {
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 620px;
+      margin-bottom: 24px;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .button {
+      display: inline-block;
+      border: none;
+      text-decoration: none;
+      font-weight: 900;
+      padding: 15px 22px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+    }
+
+    .primary {
+      color: white;
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      box-shadow: 0 14px 26px rgba(15, 139, 214, 0.28);
+    }
+
+    .secondary {
+      color: var(--deep-blue);
+      background: white;
+      border: 2px solid rgba(15, 139, 214, 0.18);
+    }
+
+    .hero-card {
+      background: radial-gradient(circle at top left, #ffffff 0%, #e3f8ff 42%, #dffdf2 100%);
+      padding: 24px;
+      border-radius: 34px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.8);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card:before {
+      content: "";
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      background: rgba(255, 209, 102, 0.45);
+      border-radius: 50%;
+      top: -60px;
+      right: -55px;
+    }
+
+    .quick-form {
+      position: relative;
+      background: var(--card);
+      padding: 24px;
+      border-radius: 26px;
+      box-shadow: 0 10px 28px rgba(15, 139, 214, 0.14);
+    }
+
+    .quick-form h2 {
+      margin-top: 0;
+      color: var(--deep-blue);
+      font-size: 1.7rem;
+      line-height: 1.1;
+    }
+
+    label {
+      font-weight: 800;
+      display: block;
+      margin: 13px 0 6px;
+      color: var(--dark);
+      font-size: 0.92rem;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 13px 14px;
+      border-radius: 14px;
+      border: 1.5px solid #cfe4ef;
+      font-size: 1rem;
+      background: white;
+    }
+
+    textarea {
+      min-height: 95px;
+      resize: vertical;
+    }
+
+    .small-note {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-top: 12px;
+    }
+
+    section {
+      max-width: 1150px;
+      margin: auto;
+      padding: 44px 22px;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1;
+      letter-spacing: -1.5px;
+      margin: 0 0 12px;
+      color: var(--dark);
+    }
+
+    .section-sub {
+      color: var(--muted);
+      max-width: 720px;
+      margin-top: 0;
+      font-size: 1.08rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 26px;
+    }
+
+    .card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: 0 12px 30px rgba(8, 50, 82, 0.08);
+      border: 1px solid rgba(15, 139, 214, 0.08);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      color: var(--deep-blue);
+      font-size: 1.28rem;
+    }
+
+    .icon {
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #dffdf2, #e5f6ff);
+      font-size: 1.6rem;
+      margin-bottom: 14px;
+    }
+
+    .steps {
+      background: linear-gradient(135deg, var(--deep-blue), #0f8bd6);
+      color: white;
+      border-radius: 36px;
+      padding: 36px;
+      box-shadow: var(--shadow);
+    }
+
+    .steps .section-title, .steps .section-sub {
+      color: white;
+    }
+
+    .step-list {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 26px;
+    }
+
+    .step {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 22px;
+      padding: 20px;
+    }
+
+    .step strong {
+      display: inline-grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--yellow);
+      color: var(--dark);
+      margin-bottom: 10px;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .contractor {
+      background: linear-gradient(135deg, #fff8e1, #ffffff);
+      border: 1px solid rgba(255, 209, 102, 0.45);
+    }
+
+    .legal {
+      background: #102033;
+      color: white;
+      border-radius: 32px;
+      padding: 30px;
+      box-shadow: var(--shadow);
+    }
+
+    .legal h2 {
+      margin-top: 0;
+      color: white;
+    }
+
+    .legal p {
+      color: #d8e7ef;
+    }
+
+    footer {
+      text-align: center;
+      padding: 34px 22px 88px;
+      color: var(--muted);
+    }
+
+    .sticky-quote {
+      position: fixed;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 50;
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      color: white;
+      text-decoration: none;
+      padding: 15px 24px;
+      border-radius: 999px;
+      font-weight: 900;
+      box-shadow: 0 15px 35px rgba(8, 50, 82, 0.28);
+      white-space: nowrap;
+    }
+
+    @media (max-width: 900px) {
+      .hero, .split {
+        grid-template-columns: 1fr;
+      }
+
+      .grid, .step-list {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .nav {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .nav-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .nav a {
+        margin-left: 0;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .grid, .step-list {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 32px;
+      }
+
+      .quick-form {
+        padding: 18px;
+      }
+
+      .steps {
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="nav">
+      <div class="brand">Fresh View <span>Property Services</span></div>
+      <div class="nav-links">
+        <a href="#services">Services</a>
+        <a href="#how">How It Works</a>
+        <a href="#contractors">Contractors</a>
+        <a href="#quote" class="quote-link">Get Started</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="hero" id="quote">
+      <div>
+        <div class="hero-badge">✨ Long Island launch • More cities later</div>
+        <h1>A <span>fresh view</span> for your property.</h1>
+        <p>
+          Get connected with local service professionals for power washing, window cleaning,
+          landscaping, gutter cleaning, junk removal, and more.
+        </p>
+        <div class="cta-row">
+          <a href="#quote" class="button primary">Get Started Now</a>
+          <a href="#services" class="button secondary">See Services</a>
+        </div>
+        <p class="small-note">
+          Fresh View Property Services is a referral and scheduling coordination service.
+          Independent service providers perform the work.
+        </p>
+      </div>
+
+      <div class="hero-card">
+        <form class="quick-form">
+          <h2>Get Started</h2>
+
+          <label>Your Name</label>
+          <input type="text" placeholder="First and last name" />
+
+          <label>Phone Number</label>
+          <input type="tel" placeholder="Best number to reach you" />
+
+          <label>Service Needed</label>
+          <select>
+            <option>Power Washing</option>
+            <option>Window Cleaning</option>
+            <option>Landscaping</option>
+            <option>Gutter Cleaning</option>
+            <option>Junk Removal</option>
+            <option>Other</option>
+          </select>
+
+          <label>Town / City</label>
+          <input type="text" placeholder="Example: Huntington, NY" />
+
+          <label>Tell Us About the Project</label>
+          <textarea placeholder="Briefly describe what you need done."></textarea>
+
+          <button type="button" class="button primary" style="width:100%; margin-top:16px;">
+            Get Started
+          </button>
+
+          <p class="small-note">
+            By submitting, you understand that Fresh View connects you with independent service providers.
+            The provider performing the work is responsible for pricing, scheduling, workmanship, insurance,
+            warranties, corrections, and service-related claims.
+          </p>
+        </form>
+      </div>
+    </div>
+
+    <section id="services">
+      <h2 class="section-title">Services We Help You Find</h2>
+      <p class="section-sub">
+        Start with exterior cleaning today. Expand into more property services tomorrow.
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <div class="icon">💦</div>
+          <h3>Power Washing</h3>
+          <p>Driveways, patios, siding, decks, fences, walkways, storefronts, and more.</p>
+        </div>
+        <div class="card">
+          <div class="icon">🪟</div>
+          <h3>Window Cleaning</h3>
+          <p>Connect with local pros for residential and small commercial window cleaning.</p>
+        </div>
+        <div class="card">
+          <div class="icon">🌿</div>
+          <h3>Landscaping</h3>
+          <p>Yard cleanup, lawn care, seasonal cleanup, planting, and exterior property care.</p>
+        </div>
+        <div class="card">
+          <div class="icon">🏠</div>
+          <h3>Gutter Cleaning</h3>
+          <p>Help keep your property protected with local gutter cleaning providers.</p>
+        </div>
+        <div class="card">
+          <div class="icon">🧹</div>
+          <h3>Junk Removal</h3>
+          <p>Get matched with providers for cleanouts, hauling, and unwanted item removal.</p>
+        </div>
+        <div class="card">
+          <div class="icon">⭐</div>
+          <h3>More Coming Soon</h3>
+          <p>Fresh View can grow into painting, seasonal services, snow removal, and more.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="how">
+      <div class="steps">
+        <h2 class="section-title">How It Works</h2>
+        <p class="section-sub">Simple for customers. Trackable for you. Clear for contractors.</p>
+
+        <div class="step-list">
+          <div class="step">
+            <strong>1</strong>
+            <h3>Submit Request</h3>
+            <p>Customer tells Fresh View what service they need.</p>
+          </div>
+          <div class="step">
+            <strong>2</strong>
+            <h3>Get Matched</h3>
+            <p>Fresh View routes the lead to a local independent provider.</p>
+          </div>
+          <div class="step">
+            <strong>3</strong>
+            <h3>Connect With a Local Professional</h3>
+            <p>The service provider contacts the customer directly.</p>
+          </div>
+          <div class="step">
+            <strong>4</strong>
+            <h3>Work Gets Done</h3>
+            <p>The provider handles the job, payment, warranty, and service issues.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contractors">
+      <div class="split">
+        <div class="card contractor">
+          <h2 class="section-title">For Contractors</h2>
+          <p>
+            Want customer leads from Fresh View? Apply to join the contractor network.
+            Contractors must provide accurate business information and are responsible for their own
+            licenses, insurance, work, pricing, scheduling, warranties, corrections, and customer claims.
+          </p>
+          <form>
+            <label>Business Name</label>
+            <input type="text" placeholder="Your business name" />
+
+            <label>Owner Name</label>
+            <input type="text" placeholder="Owner or manager name" />
+
+            <label>Phone Number</label>
+            <input type="tel" placeholder="Business phone" />
+
+            <label>Email</label>
+            <input type="email" placeholder="Business email" />
+
+            <label>Services Offered</label>
+            <textarea placeholder="Power washing, landscaping, window cleaning, etc."></textarea>
+
+            <label>Service Areas</label>
+            <input type="text" placeholder="Example: Nassau County, Suffolk County" />
+
+            <button type="button" class="button primary" style="width:100%; margin-top:16px;">
+              Apply to Receive Leads
+            </button>
+
+            <p class="small-note">
+              Referred jobs are subject to a 7% referral/marketing fee based on the total amount
+              the client pays for the referred job.
+            </p>
+          </form>
+        </div>
+
+        <div class="legal">
+          <h2>Important Legal Notice</h2>
+          <p>
+            Fresh View Property Services is a referral and scheduling coordination platform.
+            Fresh View Property Services does not personally perform contractor work and does not
+            represent that it holds a home improvement contractor license.
+          </p>
+          <p>
+            Customers contract directly with the independent service provider performing the work.
+            Independent service providers are responsible for their own estimates, contracts, pricing,
+            insurance, licenses where required, jobsite conduct, workmanship, warranties, corrections,
+            damages, delays, and service-related claims.
+          </p>
+          <p>
+            Fresh View Property Services does not supervise contractor work, guarantee workmanship,
+            or assume responsibility for the independent provider's performance.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <a href="#quote" class="sticky-quote">Get Started</a>
+
+  <footer>
+    <strong>Fresh View Property Services</strong><br />
+    Connecting homeowners with independent local service professionals.<br />
+    Long Island launch. Built to grow.
+  </footer>
+</body>
+</html>
